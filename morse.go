@@ -118,10 +118,9 @@ func (c Converter) ToMorse(text string) string {
 		*/
 		ch := Normchr(ch)
 		/*
-		if c.convertToUpper {
-			ch = unicode.ToUpper(ch)
-		}*/
-		
+			if c.convertToUpper {
+				ch = unicode.ToUpper(ch)
+			}*/
 
 		if _, ok := c.runeToMorse[ch]; !ok {
 			hand := []rune(c.Handling(ErrNoEncoding{string(ch)}))
