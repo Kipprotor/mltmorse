@@ -6,7 +6,7 @@ import (
 	"io"
 	"os"
 
-	"github.com/gSpera/morse"
+	"github.com/Kipprotor/morsetools"
 )
 
 func main() {
@@ -36,7 +36,7 @@ func main() {
 	}
 
 	encodingMap := morse.DefaultConverter.EncodingMap()
-	encodingMap['\n'] = ".-.-"
+	encodingMap['\n'] = "" //".-.-"
 
 	converter := morse.NewConverter(encodingMap,
 		morse.WithLowercaseHandling(true),

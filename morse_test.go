@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/gSpera/morse"
+	"github.com/Kipprotor/morsetools"
 )
 
 func TestRuneToMorse(t *testing.T) {

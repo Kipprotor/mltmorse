@@ -3,15 +3,14 @@ package morse
 import (
 	"io"
 	"strings"
-	"unicode"
 )
 
-//ErrorHandler is a function used by Converter when it encounters an unknown character
-//Returns the text to insert at the place of the unknown character
-//This may not(but can if necessary) corrupt the output inserting invalid morse character
+// ErrorHandler is a function used by Converter when it encounters an unknown character
+// Returns the text to insert at the place of the unknown character
+// This may not(but can if necessary) corrupt the output inserting invalid morse character
 type ErrorHandler func(error) string
 
-//Converter is a Morse from/to Text converter, it handles the conversion and error handling
+// Converter is a Morse from/to Text converter, it handles the conversion and error handling
 type Converter struct {
 	runeToMorse       map[rune]string
 	morseToRune       map[string]rune
@@ -23,9 +22,9 @@ type Converter struct {
 	Handling ErrorHandler
 }
 
-//NewConverter creates a new converter with the specified configuration
-//convertingMap is an EncodingMap, it contains how the characters will be translated, usually this is set to DefaultMorse
-//but a custom one can be used. A nil convertingMap will panic.
+// NewConverter creates a new converter with the specified configuration
+// convertingMap is an EncodingMap, it contains how the characters will be translated, usually this is set to DefaultMorse
+// but a custom one can be used. A nil convertingMap will panic.
 func NewConverter(convertingMap EncodingMap, options ...ConverterOption) Converter {
 	if convertingMap == nil {
 		panic("Using a nil EncodingMap")
@@ -63,9 +62,9 @@ func NewConverter(convertingMap EncodingMap, options ...ConverterOption) Convert
 	return c
 }
 
-//ToText converts a morse string to his textual representation
+// ToText converts a morse string to his textual representation
 //
-//For Example: "- . ... -" -> "TEST"
+// For Example: "- . ... -" -> "TEST"
 func (c Converter) ToText(morse string) string {
 	out := make([]rune, 0, int(float64(len(morse))/averageSize))
 
@@ -99,17 +98,30 @@ func (c Converter) ToText(morse string) string {
 	return string(out)
 }
 
-//ToMorse converts a text to his morse representation
-//Lowercase characters are automatically converted to Uppercase
+// ToMorse converts a text to his morse representation
+// Lowercase characters are automatically converted to Uppercase
 //
-//For Example: "Test" -> "- . ... -"
+// For Example: "Test" -> "- . ... -"
 func (c Converter) ToMorse(text string) string {
-	out := make([]rune, 0, int(float64(len(text))*averageSize))
+	textRune := []rune(text)
+	out := make([]rune, 0, int(float64(len(textRune))*averageSize))
 
-	for _, ch := range text {
+	for _, ch := range textRune {
+		//DONE ひらがなとカタカナのについてどうしたものか?
+		/*
+		   そもそも、日本語以外にも、ひらがなをカタカナに、「が」を「か」と「゛」に変換するように
+		   その言語特有の変換が必要な文字がある場合、言語ごとに設定などを作って、引数に応じて処理を変える
+		   というようにしないとコードが読みにくくなってしまうかもしれない。
+
+		   日本語、ラテン文字、ギリシャ文字、キリル文字の正規化関数はできた。
+		   ただし変換に関してオプションを用意できてない
+		*/
+		ch := Normchr(ch)
+		/*
 		if c.convertToUpper {
 			ch = unicode.ToUpper(ch)
-		}
+		}*/
+		
 
 		if _, ok := c.runeToMorse[ch]; !ok {
 			hand := []rune(c.Handling(ErrNoEncoding{string(ch)}))
@@ -134,21 +146,21 @@ func (c Converter) ToMorse(text string) string {
 	return string(out)
 }
 
-//ToMorseWriter translate all the text written to the returned io.Writer in morse code and writes it in the input io.Writer
+// ToMorseWriter translate all the text written to the returned io.Writer in morse code and writes it in the input io.Writer
 func (c Converter) ToMorseWriter(output io.Writer) io.Writer {
 	return translateToMorse{conv: c, buffer: make([]byte, 10), output: output}
 }
 
-//ToTextWriter translate all the text written to the returned io.Writer from morse code and writes it in the input io.Writer
+// ToTextWriter translate all the text written to the returned io.Writer from morse code and writes it in the input io.Writer
 func (c Converter) ToTextWriter(output io.Writer) io.Writer {
 	return translateToText{conv: c, buffer: make([]byte, 10), output: output}
 }
 
-//CharSeparator returns the charSeparator of the converter
+// CharSeparator returns the charSeparator of the converter
 func (c Converter) CharSeparator() string { return c.charSeparator }
 
-//EncodingMap returns a copy of the EncodingMap inside the Converter,
-//modifying the returned map will not change the internal one
+// EncodingMap returns a copy of the EncodingMap inside the Converter,
+// modifying the returned map will not change the internal one
 func (c Converter) EncodingMap() EncodingMap {
 	ret := make(EncodingMap, len(c.runeToMorse))
 

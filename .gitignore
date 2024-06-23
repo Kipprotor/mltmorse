@@ -18,7 +18,7 @@
 # vendor/
 
 # Directories for prototypes
-prototype
+/prttype
 
 # Wav files
 *.wav

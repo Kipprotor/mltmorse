@@ -3,7 +3,7 @@ package morse_test
 import (
 	"fmt"
 
-	"github.com/gSpera/morse"
+	"github.com/Kipprtor/morsetools"
 )
 
 func Example() {
@@ -32,4 +32,20 @@ func ExampleRuneToText() {
 
 	fmt.Printf("The morse code %s converts to: %c", str, ch)
 	//Output: The morse code --. converts to: G
+}
+func ExampleNormalizeStr() {
+	latinText := "Hello, World!"
+	cyrillicText := "Привет, мир!"
+	japaneseText := "ぱぴぷぺぽ"
+	hangulText := "안녕하세요 세계"
+	for _, text := range []string{latinText, cyrillicText, japaneseText, hangulText} {
+		for _, r := range text {
+			fmt.Println(Normchr(latinText))    // hello, world!
+			fmt.Println(Normchr(cyrillicText)) // привет, мир!
+			fmt.Println(Normchr(japaneseText)) // ハ゜ヒ゜フ゜ヘ゜ホ゜
+			for _, i := range Normchr(hangulText) {
+				fmt.Print(string(i), " ")
+			}
+		}
+	}
 }
