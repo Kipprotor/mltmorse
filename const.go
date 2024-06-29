@@ -21,12 +21,6 @@ var DefaultMorse = mergeEncMap(LatinMorse, NumSymbolMorse)
 
 var reverseDefaultMorse = reverseEncodingMap(DefaultMorse)
 
-// IgnoreHandler ignores the error and returns nothing
-func IgnoreHandler(error) string { return "" }
-
-// PanicHandler is a handler that panics when an error occurs
-func PanicHandler(err error) string { panic(err) }
-
 // DefaultConverter is the default converter, it uses the exported morse set and has an IgnoreHandler, the separation character is a space
 // Lowercase letter are encoded as upper ones. DefaultConverter uses explicitly IgnoreHandler and adds the trailing separator
 var DefaultConverter = NewConverter(

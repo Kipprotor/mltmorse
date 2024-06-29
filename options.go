@@ -1,5 +1,11 @@
 package morse
 
+// IgnoreHandler ignores the error and returns nothing
+func IgnoreHandler(error) string { return "" }
+
+// PanicHandler is a handler that panics when an error occurs
+func PanicHandler(err error) string { panic(err) }
+
 // ConverterOption is a function that modifies a Converter
 // The main use of ConvertOption is inside NewConverter
 type ConverterOption func(Converter) Converter
