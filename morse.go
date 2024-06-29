@@ -107,20 +107,18 @@ func (c Converter) ToMorse(text string) string {
 	out := make([]rune, 0, int(float64(len(textRune))*averageSize))
 
 	for _, ch := range textRune {
-		//DONE ひらがなとカタカナのについてどうしたものか?
 		/*
-		   そもそも、日本語以外にも、ひらがなをカタカナに、「が」を「か」と「゛」に変換するように
-		   その言語特有の変換が必要な文字がある場合、言語ごとに設定などを作って、引数に応じて処理を変える
-		   というようにしないとコードが読みにくくなってしまうかもしれない。
-
-		   日本語、ラテン文字、ギリシャ文字、キリル文字の正規化関数はできた。
+		   TODO 言語特有の処理が必要な場合について
+		   言語ごとに設定などを作って、引数に応じて処理を変えるというようにして、コードの可読性をあげる
 		   ただし変換に関してオプションを用意できてない
 		*/
+
 		ch := Normchr(ch)
 		/*
 			if c.convertToUpper {
 				ch = unicode.ToUpper(ch)
-			}*/
+			}
+		*/
 
 		if _, ok := c.runeToMorse[ch]; !ok {
 			hand := []rune(c.Handling(ErrNoEncoding{string(ch)}))

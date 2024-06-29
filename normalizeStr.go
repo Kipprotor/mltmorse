@@ -10,16 +10,16 @@ import (
 func Normchr(input rune) rune {
 	chr := norm.NFD.String(string(input))
 	// 日本語の処理
-	Kana := normKanaRune([]rune(chr)[0])
+	kana := normKanaRune([]rune(chr)[0])
 	// 変換可能な文字を大文字に変換
-	alpha := unicode.ToUpper(Kana)
+	alpha := unicode.ToUpper(kana)
 	return alpha
 }
 
 /*
 日本語の正規化用ヘルパー関数
-入力は1文字のみ
-(半)濁点を大文字に、ひらがなならばカタカナに変換する
+入力は1文字ずつ
+(半)濁点を大文字に、ひらがなをカタカナに変換する
 それ以外の文字はそのまま返す
 */
 func normKanaRune(input rune) rune {
