@@ -3,7 +3,7 @@ package morse_test
 import (
 	"fmt"
 
-	"github.com/Kipprtor/morsetools"
+	"github.com/Kipprotor/morsetools"
 )
 
 func Example() {
@@ -40,12 +40,11 @@ func ExampleNormalizeStr() {
 	hangulText := "안녕하세요 세계"
 	for _, text := range []string{latinText, cyrillicText, japaneseText, hangulText} {
 		for _, r := range text {
-			fmt.Println(Normchr(latinText))    // hello, world!
-			fmt.Println(Normchr(cyrillicText)) // привет, мир!
-			fmt.Println(Normchr(japaneseText)) // ハ゜ヒ゜フ゜ヘ゜ホ゜
-			for _, i := range Normchr(hangulText) {
-				fmt.Print(string(i), " ")
-			}
+			fmt.Print(morse.Normchr(r))
+			// hello, world!
+			// привет, мир!
+			//ハ゜ヒ゜フ゜ヘ゜ホ゜
 		}
+		fmt.Println()
 	}
 }
