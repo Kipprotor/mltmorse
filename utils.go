@@ -4,6 +4,25 @@ import (
 	"io"
 )
 
+// mergeMap merges 2 Map objects map[rune]interface{}
+func mergeEncMap(m1, m2 EncodingMap) EncodingMap {
+	ans := make(EncodingMap, len(m1)+len(m2))
+
+	for _, m := range []EncodingMap{m1, m2} {
+		for k, v := range m {
+			ans[k] = v
+		}
+		/*
+			for _, c := range m {
+				for k, v := range c {
+					ans[k] = v
+				}
+			}
+		*/
+	}
+	return ans
+}
+
 // ToText converts a morse string to his textual representation, it is an alias to DefaultConverter.ToText
 func ToText(morse string) string { return DefaultConverter.ToText(morse) }
 

@@ -16,7 +16,10 @@ Features
 
 Supports
 ========
-
+- ラテン文字、記号、数字: **ITU-R M.1677-1**
+- ギリシャ文字: [decodemorsecode.com](https://decodemorsecode.com/greek-alphabet/)
+- ハングル: SKATS,[decodemorsecode.com](https://www.mykit.com/kor/ele/morse.htm)
+- ひらがな・カタカナ:  [日本アマチュア無線連盟](https://www.jarl.org/Japanese/A_Shiryo/A-C_Morse/morse.htm)
 
 Tools
 =====

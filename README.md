@@ -16,7 +16,11 @@ Features
 
 Support
 =======
-This library supports the default morse (as defined by **ITU-R M.1677-1**) code but custom ones can be used freely using a custom [EncodingMap](https://godoc.org/github.com/gSpera/morse#EncodingMap)
+- Latin, Symbol, Number: **ITU-R M.1677-1**
+- Greek: [decodemorsecode.com](https://decodemorsecode.com/greek-alphabet/)
+- Korean: SKATS,[mykit.com](https://www.mykit.com/kor/ele/morse.htm)
+- Japanese: [The Japen Amateur Radio League ](https://www.jarl.org/Japanese/A_Shiryo/A-C_Morse/morse.htm)
+you can use custom ones freely using a custom [EncodingMap](https://github.com/Kipprotor/morsetools/maps.go)
 
 Tool
 ====
