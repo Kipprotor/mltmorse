@@ -11,6 +11,8 @@ import (
 
 func main() {
 	decode := flag.Bool("D", false, "Decodes input (Morse -> Text)")
+	newlineOpt := flag.Bool("nl", false, "Insert a newline code at each newline; default is false")
+	
 	in := PathFlag("-")
 	var out string
 	flag.Var(&in, "in", "The input file; default to stdin")
@@ -36,7 +38,9 @@ func main() {
 	}
 
 	encodingMap := morse.DefaultConverter.EncodingMap()
-	encodingMap['\n'] = "" //".-.-"
+	if *newlineOpt {
+	encodingMap['\n'] = ".-.-"
+	}
 
 	converter := morse.NewConverter(encodingMap,
 		morse.WithLowercaseHandling(true),
