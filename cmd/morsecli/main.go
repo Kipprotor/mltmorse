@@ -10,9 +10,15 @@ import (
 )
 
 func main() {
-	decode := flag.Bool("D", false, "Decodes input (Morse -> Text)")
-	newlineOpt := flag.Bool("nl", false, "Insert a newline code at each newline; default is false")
-	
+	var (
+		decode     bool
+		newlineOpt bool
+		alphabet   string
+	)
+	flag.BoolVar(&decode, "D", false, "Decodes input (Morse -> Text)")
+	flag.BoolVar(&newlineOpt, "nl", false, "Insert a newline code at each newline; default is false")
+	flag.StringVar(&alphabet, "s", "lt", "alphabet to use (lt:Latin, gr:Greek, cy:Cyrillic, kr:Korean, ja:Katakana)")
+
 	in := PathFlag("-")
 	var out string
 	flag.Var(&in, "in", "The input file; default to stdin")
@@ -37,9 +43,17 @@ func main() {
 		os.Exit(1)
 	}
 
-	encodingMap := morse.DefaultConverter.EncodingMap()
-	if *newlineOpt {
-	encodingMap['\n'] = ".-.-"
+	var DictMap = map[string]morse.EncodingMap{
+		"lt": morse.LatinMorse,
+		"gr": morse.GreekMorse,
+		"cy": morse.CyillicMorse,
+		"kr": morse.KoreanMorse,
+		"ja": morse.KataMorse,
+	}
+
+	encodingMap := morse.MergeEncMap(DictMap[alphabet], morse.NumSymbolMorse)
+	if newlineOpt {
+		encodingMap['\n'] = ".-.-"
 	}
 
 	converter := morse.NewConverter(encodingMap,
@@ -48,7 +62,7 @@ func main() {
 	)
 
 	var stream io.Writer
-	if *decode {
+	if decode {
 		stream = converter.ToTextWriter(writer)
 	} else {
 		stream = converter.ToMorseWriter(writer)

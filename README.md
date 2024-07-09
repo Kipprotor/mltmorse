@@ -27,13 +27,13 @@ Tool
 You can find a cli tool in the [cmd/morsecli](cmd/morsecli) directory
 This tool can be used for converting to/from morse and generating CW
 ```bash
-$ morse > out.morse
+$ morsecli > out.morse
 test
 this is morse.
 ^C
 $ cat out.morse
 - . ... - .-.-- .... .. ...   .. ...   -- --- .-. ... . .-.-.- .-.-
-$ morse -D < out.morse
+$ morsecli -D < out.morse
 TEST
 THIS IS MORSE.
 ```
@@ -42,7 +42,6 @@ For more uses look use `--help`
 Examples
 ========
 ```go
-
 text := "MORSE IS AWESOME"
 
 //Convert to morse

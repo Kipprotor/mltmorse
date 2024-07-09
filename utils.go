@@ -5,7 +5,7 @@ import (
 )
 
 // mergeMap merges 2 Map objects map[rune]interface{}
-func mergeEncMap(m1, m2 EncodingMap) EncodingMap {
+func MergeEncMap(m1, m2 EncodingMap) EncodingMap {
 	ans := make(EncodingMap, len(m1)+len(m2))
 
 	for _, m := range []EncodingMap{m1, m2} {

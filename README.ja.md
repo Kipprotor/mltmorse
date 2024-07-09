@@ -26,17 +26,26 @@ Tools
 CLIツールが[cmd/morsecli](cmd/morsecli)にあります。
 モールス信号への符号化や復号化、モールス信号音のwavファイルの生成をすることができます。
 ```bash
-$morsecli -l ja > out.morse
+$morsecli -s ja > out.morse
 テスト
 モールス しんごう です。
 ^C
-$morsecli -D -l ja < out.morse
-てすと
-もーるす しんごう です。
+$morsecli -D -s ja < out.morse
+テスト
+モールス シンゴウ デス。
 ```
 詳しくは `--help` を参照してください。
 
 Examples
 ========
 ```go
+text := "MORSE IS AWESOME"
+
+//Convert to morse
+textInMorse := morse.ToMorse(text)
+fmt.Println(textInMorse) //-- --- .-. ... .   .. ...   .- .-- . ... --- -- .
+
+//Back to text
+backToText := morse.ToText(textInMorse)
+fmt.Println(backToText) //MORSE IS AWESOME
 ```
