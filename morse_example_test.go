@@ -33,18 +33,16 @@ func ExampleRuneToText() {
 	fmt.Printf("The morse code %s converts to: %c", str, ch)
 	//Output: The morse code --. converts to: G
 }
-func ExampleNormalizeStr() {
-	latinText := "Hello, World!"
-	cyrillicText := "Привет, мир!"
-	japaneseText := "ぱぴぷぺぽ"
-	hangulText := "안녕하세요 세계"
-	for _, text := range []string{latinText, cyrillicText, japaneseText, hangulText} {
+func ExampleNormStr() {
+	latinText := "HELLO, WORLD!"
+	cyrillicText := "ЭТО МОРЗЕ" 
+	japaneseText := "きょうは リンゴを 2つ たべました"
+	for _, text := range []string{latinText, cyrillicText, japaneseText} {
 		for _, r := range text {
-			fmt.Print(morse.Normchr(r))
+			fmt.Printf("%v\n", morse.NormStr(string(r)))
 			// hello, world!
-			// привет, мир!
-			//ハ゜ヒ゜フ゜ヘ゜ホ゜
+			// это морзе
+			// キヨウハ リンコ゛ヲ 2ツ タヘ゛マシタ
 		}
-		fmt.Println()
 	}
 }

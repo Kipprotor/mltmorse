@@ -103,17 +103,15 @@ func (c Converter) ToText(morse string) string {
 //
 // For Example: "Test" -> "- . ... -"
 func (c Converter) ToMorse(text string) string {
-	textRune := []rune(text)
-	out := make([]rune, 0, int(float64(len(textRune))*averageSize))
+	out := make([]rune, 0, int(float64(len([]rune(text)))*averageSize))
+	/*
+	 TODO 言語特有の処理が必要な場合について
+	 言語ごとに設定などを作って、引数に応じて処理を変えるというようにして、コードの可読性をあげる
+	 ただし変換に関してオプションを用意できてない
+	*/
+	normlized := NormStr(text)
 
-	for _, ch := range textRune {
-		/*
-		   TODO 言語特有の処理が必要な場合について
-		   言語ごとに設定などを作って、引数に応じて処理を変えるというようにして、コードの可読性をあげる
-		   ただし変換に関してオプションを用意できてない
-		*/
-
-		ch := Normchr(ch)
+	for _, ch := range normlized {
 		/*
 			if c.convertToUpper {
 				ch = unicode.ToUpper(ch)

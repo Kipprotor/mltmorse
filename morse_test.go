@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/Kipprotor/morsetools"
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestRuneToMorse(t *testing.T) {
@@ -278,7 +279,8 @@ func TestConverter_ToTextWriter(t *testing.T) {
 
 func TestConverter_CharSeparator(t *testing.T) {
 	separator := "separator"
-	c := morse.NewConverter(morse.DefaultMorse,
+	c := morse.NewConverter(
+		morse.DefaultMorse,
 		morse.WithCharSeparator(separator),
 		morse.WithHandler(morse.PanicHandler),
 	)
@@ -292,7 +294,8 @@ func TestConverter_CharSeparator(t *testing.T) {
 func TestConverter_EncodingMap(t *testing.T) {
 	expectedMap := morse.DefaultMorse
 
-	c := morse.NewConverter(expectedMap,
+	c := morse.NewConverter(
+		expectedMap,
 		morse.WithHandler(morse.PanicHandler),
 	)
 	out := c.EncodingMap()
@@ -314,4 +317,34 @@ func Test_NewConverter(t *testing.T) {
 		}()
 		morse.NewConverter(nil)
 	})
+}
+
+func TestNormStr(t *testing.T) {
+	t.Helper()
+	tm := []struct {
+		name   string
+		input  string
+		output string
+	}{
+		{
+			"Uppercase",
+			"I ate 2 apples",
+			"I ATE 2 APPLES",
+		},
+		{
+			"normalize for Japanese",
+			"きょうは リンゴを 2つ たべました",
+			"キヨウハ リンコ゛ヲ 2ツ タヘ゛マシタ",
+		},
+	}
+
+	for _, tt := range tm {
+		t.Run(tt.name, func(t *testing.T) {
+			out := morse.NormStr(tt.input)
+			expect := []rune(tt.output)
+			if !cmp.Equal(out, expect) {
+				t.Errorf("Expected: %q; got: %q", expect, out)
+			}
+		})
+	}
 }
