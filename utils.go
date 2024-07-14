@@ -12,13 +12,6 @@ func MergeEncMap(m1, m2 EncodingMap) EncodingMap {
 		for k, v := range m {
 			ans[k] = v
 		}
-		/*
-			for _, c := range m {
-				for k, v := range c {
-					ans[k] = v
-				}
-			}
-		*/
 	}
 	return ans
 }
@@ -43,19 +36,19 @@ type translateToMorse struct {
 	output io.Writer
 }
 
-// Text -> Morse
-func (t translateToMorse) Write(data []byte) (int, error) {
-	morse := t.conv.ToMorse(string(data))
-	_, err := t.output.Write([]byte(morse))
-	return len(data), err
-}
-
 type translateToText struct {
 	conv   Converter
 	buffer []byte
 
 	input  io.Reader
 	output io.Writer
+}
+
+// Text -> Morse
+func (t translateToMorse) Write(data []byte) (int, error) {
+	morse := t.conv.ToMorse(string(data))
+	_, err := t.output.Write([]byte(morse))
+	return len(data), err
 }
 
 // Morse -> Text

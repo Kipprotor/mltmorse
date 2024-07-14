@@ -35,7 +35,7 @@ func ExampleRuneToText() {
 }
 func ExampleNormStr() {
 	latinText := "HELLO, WORLD!"
-	cyrillicText := "ЭТО МОРЗЕ" 
+	cyrillicText := "ЭТО МОРЗЕ"
 	japaneseText := "きょうは リンゴを 2つ たべました"
 	for _, text := range []string{latinText, cyrillicText, japaneseText} {
 		for _, r := range text {

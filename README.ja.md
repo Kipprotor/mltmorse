@@ -1,6 +1,9 @@
 morsetools
 ==========
-**このリポジトリーは現在開発中です**
+[![Documentation](https://godoc.org/github.com/Kipprotor/morsetools?status.svg)](http://godoc.org/github.com/Kipprotor/morsetools)
+[![Go Report Card](https://goreportcard.com/badge/github.com/Kipprotor/morsetools)](https://goreportcard.com/report/github.com/Kipprotor/morsetools)
+
+**このリポジトリの一部の機能は現在開発中です。**
 
 モールス信号への符号化や復号化、モールス信号音のwavファイルの生成を行うライブラリ。
 
@@ -11,8 +14,10 @@ Features
 - 文字列の符号化や、モールス信号の復号化
 - 数種類の文字の符号化 (ラテン文字、ギリシャ文字、キリル文字)
 - モールス符号の変換テーブルの指定
-- モールス信号から、モールス信号音を生成し、wavファイルとして出力
-- パリス速度の指定
+- **この機能は現在開発中です**
+
+  モールス信号から、モールス信号音を生成し、wavファイルとして出力
+  - 生成する信号音の打鍵速度の指定
 
 Supports
 ========
@@ -20,6 +25,8 @@ Supports
 - ギリシャ文字: [decodemorsecode.com](https://decodemorsecode.com/greek-alphabet/)
 - ハングル: SKATS,[decodemorsecode.com](https://www.mykit.com/kor/ele/morse.htm)
 - ひらがな・カタカナ:  [日本アマチュア無線連盟](https://www.jarl.org/Japanese/A_Shiryo/A-C_Morse/morse.htm)
+
+これ以外の文字を使いたい場合などは、[maps.go](https://github.com/Kipprotor/morsetools/blob/main/maps.go)に変換表を追加してください。文字によっては[正規化関数](https://github.com/Kipprotor/morsetools/blob/main/normalizeStr.go)に手を加えル必要があるかもしれません。
 
 Tools
 =====

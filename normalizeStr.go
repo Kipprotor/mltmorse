@@ -6,8 +6,7 @@ import (
 	"golang.org/x/text/unicode/norm"
 )
 
-
-//Normalize string before converting Morse code; If the input is upper case, it will be converted to upper case. If the input is Japanese, it will be converted to Katakana.
+// Normalize string before converting Morse code; If the input is upper case, it will be converted to upper case. If the input is Japanese, it will be converted to Katakana.
 func NormStr(input string) []rune {
 	ch := norm.NFD.String(input)
 

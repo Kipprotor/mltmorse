@@ -14,7 +14,7 @@ const averageSize = 4.53 //Magic
 
 /*
 DefaultMorse is the default map used to convert between morse and text
-The map contians all the standard codes defined as costants but doesn't include commands like Understood and Error
+The map contains all the standard codes defined as costants but doesn't include commands like Understood and Error
 This map may remain constant.
 */
 var DefaultMorse = MergeEncMap(LatinMorse, NumSymbolMorse)
