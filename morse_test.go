@@ -1,10 +1,10 @@
-package morse_test
+package mltmorse_test
 
 import (
 	"bytes"
 	"testing"
 
-	"github.com/Kipprotor/morsetools"
+	"github.com/Kipprotor/mltmorse"
 	"github.com/google/go-cmp/cmp"
 )
 
@@ -14,7 +14,7 @@ func TestRuneToMorse(t *testing.T) {
 		input  rune
 		output string
 	}{
-		{"Simple A", 'A', morse.A},
+		{"Simple A", 'A', mltmorse.A},
 		{"Hardcoded A", 'A', ".-"},
 		{"Non supported rune", 'π', ""},
 		{"Lowercase", 'a', ".-"},
@@ -22,7 +22,7 @@ func TestRuneToMorse(t *testing.T) {
 
 	for _, tt := range tm {
 		t.Run(tt.name, func(t *testing.T) {
-			get := morse.RuneToMorse(tt.input)
+			get := mltmorse.RuneToMorse(tt.input)
 			if get != tt.output {
 				t.Errorf("Expected [%s], got: [%s]", tt.output, get)
 			}
@@ -33,27 +33,27 @@ func TestRuneToMorse(t *testing.T) {
 func TestConverter_ToText(t *testing.T) {
 	tm := []struct {
 		name      string
-		converter morse.Converter
+		converter mltmorse.Converter
 		input     string
 		output    string
 	}{
 		{
 			"Simple Text",
-			morse.DefaultConverter,
+			mltmorse.DefaultConverter,
 			".-.. --- .-. . --",
 			"LOREM",
 		},
 		{
 			"Empty String",
-			morse.DefaultConverter,
+			mltmorse.DefaultConverter,
 			"",
 			"",
 		},
 		{
 			"Trailing Separator with Handler",
-			morse.NewConverter(morse.DefaultMorse,
-				morse.WithHandler(func(error) string { return "A" }),
-				morse.WithTrailingSeparator(true),
+			mltmorse.NewConverter(mltmorse.DefaultMorse,
+				mltmorse.WithHandler(func(error) string { return "A" }),
+				mltmorse.WithTrailingSeparator(true),
 			),
 			"",
 			"A  ",
@@ -73,44 +73,44 @@ func TestConverter_ToText(t *testing.T) {
 func TestConverter_ToMorse(t *testing.T) {
 	tm := []struct {
 		name      string
-		converter morse.Converter
+		converter mltmorse.Converter
 		input     string
 		output    string
 		panics    interface{}
 	}{
 		{
 			"Simple Text",
-			morse.DefaultConverter,
+			mltmorse.DefaultConverter,
 			"LOREM",
 			".-.. --- .-. . --",
 			nil,
 		},
 		{
 			"Empty String",
-			morse.DefaultConverter,
+			mltmorse.DefaultConverter,
 			"",
 			"",
 			nil,
 		},
 		{
 			"Character not supported",
-			morse.NewConverter(morse.EncodingMap{}, morse.WithHandler(morse.PanicHandler)),
+			mltmorse.NewConverter(mltmorse.EncodingMap{}, mltmorse.WithHandler(mltmorse.PanicHandler)),
 			"A",
 			"",
-			morse.ErrNoEncoding{Text: "A"},
+			mltmorse.ErrNoEncoding{Text: "A"},
 		},
 		{
 			"Character not supported - Ignore",
-			morse.NewConverter(morse.EncodingMap{}, morse.WithHandler(morse.IgnoreHandler)),
+			mltmorse.NewConverter(mltmorse.EncodingMap{}, mltmorse.WithHandler(mltmorse.IgnoreHandler)),
 			"A",
 			"",
 			nil,
 		},
 		{
 			"Trailing Separator with Handler",
-			morse.NewConverter(morse.EncodingMap{},
-				morse.WithHandler(func(error) string { return "A" }),
-				morse.WithTrailingSeparator(true),
+			mltmorse.NewConverter(mltmorse.EncodingMap{},
+				mltmorse.WithHandler(func(error) string { return "A" }),
+				mltmorse.WithTrailingSeparator(true),
 			),
 
 			" ",
@@ -159,7 +159,7 @@ func TestToText(t *testing.T) {
 
 	for _, tt := range tm {
 		t.Run(tt.name, func(t *testing.T) {
-			out := morse.ToText(tt.input)
+			out := mltmorse.ToText(tt.input)
 			if out != tt.output {
 				t.Errorf("Expected: %q; got: %q", tt.output, out)
 			}
@@ -169,8 +169,8 @@ func TestToText(t *testing.T) {
 
 func TestHandler(t *testing.T) {
 	t.Run("IgnoreHandler", func(t *testing.T) {
-		conv := morse.DefaultConverter
-		conv.Handling = morse.IgnoreHandler
+		conv := mltmorse.DefaultConverter
+		conv.Handling = mltmorse.IgnoreHandler
 		out := conv.ToText("--------")
 		if out != "" {
 			t.Errorf("Expected \"\", got: %q", out)
@@ -183,15 +183,15 @@ func TestHandler(t *testing.T) {
 			}
 		}()
 
-		conv := morse.DefaultConverter
-		conv.Handling = morse.PanicHandler
+		conv := mltmorse.DefaultConverter
+		conv.Handling = mltmorse.PanicHandler
 		conv.ToText("-------")
 	})
 }
 
 func TestErrors(t *testing.T) {
 	t.Run("ErrNoEncoding", func(t *testing.T) {
-		err := morse.ErrNoEncoding{Text: "Text"}
+		err := mltmorse.ErrNoEncoding{Text: "Text"}
 		out := err.Error()
 		expected := "No encoding for: \"Text\""
 		if out != expected {
@@ -219,7 +219,7 @@ func TestConverter_ToMorseWriter(t *testing.T) {
 	}
 
 	buffer := bytes.NewBufferString("")
-	writer := morse.ToMorseWriter(buffer)
+	writer := mltmorse.ToMorseWriter(buffer)
 	for _, tt := range tm {
 		t.Run(tt.name, func(t *testing.T) {
 			buffer.Reset()
@@ -257,7 +257,7 @@ func TestConverter_ToTextWriter(t *testing.T) {
 	}
 
 	buffer := bytes.NewBufferString("")
-	writer := morse.ToTextWriter(buffer)
+	writer := mltmorse.ToTextWriter(buffer)
 	for _, tt := range tm {
 		t.Run(tt.name, func(t *testing.T) {
 			buffer.Reset()
@@ -279,10 +279,10 @@ func TestConverter_ToTextWriter(t *testing.T) {
 
 func TestConverter_CharSeparator(t *testing.T) {
 	separator := "separator"
-	c := morse.NewConverter(
-		morse.DefaultMorse,
-		morse.WithCharSeparator(separator),
-		morse.WithHandler(morse.PanicHandler),
+	c := mltmorse.NewConverter(
+		mltmorse.DefaultMorse,
+		mltmorse.WithCharSeparator(separator),
+		mltmorse.WithHandler(mltmorse.PanicHandler),
 	)
 	out := c.CharSeparator()
 
@@ -292,11 +292,11 @@ func TestConverter_CharSeparator(t *testing.T) {
 }
 
 func TestConverter_EncodingMap(t *testing.T) {
-	expectedMap := morse.DefaultMorse
+	expectedMap := mltmorse.DefaultMorse
 
-	c := morse.NewConverter(
+	c := mltmorse.NewConverter(
 		expectedMap,
-		morse.WithHandler(morse.PanicHandler),
+		mltmorse.WithHandler(mltmorse.PanicHandler),
 	)
 	out := c.EncodingMap()
 
@@ -315,7 +315,7 @@ func Test_NewConverter(t *testing.T) {
 				t.Error("Expected")
 			}
 		}()
-		morse.NewConverter(nil)
+		mltmorse.NewConverter(nil)
 	})
 }
 
@@ -340,7 +340,7 @@ func TestNormStr(t *testing.T) {
 
 	for _, tt := range tm {
 		t.Run(tt.name, func(t *testing.T) {
-			out := morse.NormStr(tt.input)
+			out := mltmorse.NormStr(tt.input)
 			expect := []rune(tt.output)
 			if !cmp.Equal(out, expect) {
 				t.Errorf("Expected: %q; got: %q", expect, out)

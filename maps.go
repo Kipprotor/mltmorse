@@ -1,4 +1,4 @@
-package morse
+package mltmorse
 
 /*
 EncodingMap contains the definitions for converting between two encoding
@@ -46,8 +46,8 @@ const (
 	Space = " "
 )
 
-// Number and Symbol
-var NumSymbolMorse = EncodingMap{
+// Numbers
+var NumMorse = EncodingMap{
 	'1': ".----",
 	'2': "..---",
 	'3': "...--",
@@ -58,7 +58,10 @@ var NumSymbolMorse = EncodingMap{
 	'8': "---..",
 	'9': "----.",
 	'0': "-----",
+}
 
+// Symbols
+var SymbolMorse = EncodingMap{
 	'.':  ".-.-.-",
 	',':  "--..--",
 	':':  "---...",
@@ -74,6 +77,9 @@ var NumSymbolMorse = EncodingMap{
 	'@':  ".--.-.",
 	' ':  Space,
 }
+
+// Numbers and Symbols
+var NumSymbolMorse = MergeEncMap(NumMorse, SymbolMorse)
 
 // Latin
 var LatinMorse = EncodingMap{

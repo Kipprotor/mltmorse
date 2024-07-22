@@ -6,7 +6,7 @@ import (
 	"io"
 	"os"
 
-	"github.com/Kipprotor/morsetools"
+	"github.com/Kipprotor/mltmorse"
 )
 
 func main() {
@@ -43,22 +43,22 @@ func main() {
 		os.Exit(1)
 	}
 
-	var DictMap = map[string]morse.EncodingMap{
-		"lt": morse.LatinMorse,
-		"gr": morse.GreekMorse,
-		"cy": morse.CyillicMorse,
-		"kr": morse.KoreanMorse,
-		"ja": morse.KataMorse,
+	var DictMap = map[string]mltmorse.EncodingMap{
+		"lt": mltmorse.LatinMorse,
+		"gr": mltmorse.GreekMorse,
+		"cy": mltmorse.CyillicMorse,
+		"kr": mltmorse.KoreanMorse,
+		"ja": mltmorse.KataMorse,
 	}
 
-	encodingMap := morse.MergeEncMap(DictMap[alphabet], morse.NumSymbolMorse)
+	encodingMap := mltmorse.MergeEncMap(DictMap[alphabet], mltmorse.NumMorse)
 	if newlineOpt {
-		encodingMap['\n'] = ".-.-"
+		encodingMap['\n'] = mltmorse.Wait
 	}
 
-	converter := morse.NewConverter(encodingMap,
-		morse.WithLowercaseHandling(true),
-		morse.WithHandler(morse.IgnoreHandler),
+	converter := mltmorse.NewConverter(encodingMap,
+		mltmorse.WithLowercaseHandling(true),
+		mltmorse.WithHandler(mltmorse.IgnoreHandler),
 	)
 
 	var stream io.Writer

@@ -1,14 +1,14 @@
-package morse
+package mltmorse
 
 import (
 	"io"
 )
 
-// mergeMap merges 2 Map objects map[rune]interface{}
-func MergeEncMap(m1, m2 EncodingMap) EncodingMap {
-	ans := make(EncodingMap, len(m1)+len(m2))
+// mergeMap merges multiple Map objects map[rune]interface{}
+func MergeEncMap(mps ...EncodingMap) EncodingMap {
+	ans := make(EncodingMap, 0)
 
-	for _, m := range []EncodingMap{m1, m2} {
+	for _, m := range mps {
 		for k, v := range m {
 			ans[k] = v
 		}

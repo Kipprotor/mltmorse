@@ -1,11 +1,11 @@
-morsetools
-==========
-[![Documentation](https://godoc.org/github.com/Kipprotor/morsetools?status.svg)](http://godoc.org/github.com/Kipprotor/morsetools)
-[![Go Report Card](https://goreportcard.com/badge/github.com/Kipprotor/morsetools)](https://goreportcard.com/report/github.com/Kipprotor/morsetools)
+mltmorse
+========
+[![Documentation](https://godoc.org/github.com/Kipprotor/mltmorse?status.svg)](http://godoc.org/github.com/Kipprotor/mltmorse)
+[![Go Report Card](https://goreportcard.com/badge/github.com/Kipprotor/mltmorse)](https://goreportcard.com/report/github.com/Kipprotor/mltmorse)
 
 **このリポジトリの一部の機能は現在開発中です。**
 
-モールス信号への符号化や復号化、モールス信号音のwavファイルの生成を行うライブラリ。
+様々な文字をモールス信号への符号化や復号化を行うパッケージ
 
 このリポジトリーは[gSpera/morse](https://github.com/gSpera/morse)からフォークしています。
 
@@ -14,24 +14,38 @@ Features
 - 文字列の符号化や、モールス信号の復号化
 - 数種類の文字の符号化 (ラテン文字、ギリシャ文字、キリル文字)
 - モールス符号の変換テーブルの指定
-- **この機能は現在開発中です**
 
-  モールス信号から、モールス信号音を生成し、wavファイルとして出力
-  - 生成する信号音の打鍵速度の指定
+**注意**: パッケージを簡素化するため、**wavファイルを生成する機能**は削除されました。 
+ただし、モールス信号からwavを生成するツールは[cmd/soundmorse](cmd/soundmorse)にあります。
+このツールを実行するのに必要なパッケージはgo.modには含まれていませんので、このツールを使いたい場合は `go mod tidy` を実行し、それらをダウンロードしてください。
 
 Supports
 ========
-- ラテン文字、記号、数字: **ITU-R M.1677-1**
+標準でサポートしている変換表は以下の通りです。
+
+- ラテン文字、記号、数字: [ITU-R M.1677-1](https://www.itu.int/dms_pubrec/itu-r/rec/m/R-REC-M.1677-1-200910-I!!PDF-E.pdf)
 - ギリシャ文字: [decodemorsecode.com](https://decodemorsecode.com/greek-alphabet/)
 - ハングル: SKATS,[decodemorsecode.com](https://www.mykit.com/kor/ele/morse.htm)
+  - ハングル文字が適切に正規化できない問題があり、符号化/復号化に失敗します。
 - ひらがな・カタカナ:  [日本アマチュア無線連盟](https://www.jarl.org/Japanese/A_Shiryo/A-C_Morse/morse.htm)
 
-これ以外の文字を使いたい場合などは、[maps.go](https://github.com/Kipprotor/morsetools/blob/main/maps.go)に変換表を追加してください。文字によっては[正規化関数](https://github.com/Kipprotor/morsetools/blob/main/normalizeStr.go)に手を加えル必要があるかもしれません。
+また、以下のように変換表を定義し、独自のものを使うことができます。
+使いたい文字によっては、モールス信号に変換する前に文字列を正規化する関数を定義する必要があるかもしれません。
+```go
+var LatinMorse = mltmorse.EncodingMap{
+	'A': ".-",
+	'B': "-...",
+	'C': "-.-.",
+	'D': "-..",
+	'E': ".",
+  ...
+}
+```
 
 Tools
 =====
 CLIツールが[cmd/morsecli](cmd/morsecli)にあります。
-モールス信号への符号化や復号化、モールス信号音のwavファイルの生成をすることができます。
+モールス信号への符号化や復号化をすることができます。
 ```bash
 $morsecli -s ja > out.morse
 テスト

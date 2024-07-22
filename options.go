@@ -1,4 +1,4 @@
-package morse
+package mltmorse
 
 // IgnoreHandler ignores the error and returns nothing
 func IgnoreHandler(error) string { return "" }

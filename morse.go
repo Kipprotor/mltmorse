@@ -1,4 +1,4 @@
-package morse
+package mltmorse
 
 import (
 	"io"
