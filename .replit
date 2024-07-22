@@ -1,6 +1,6 @@
 entrypoint = "cmd/morsecli/*"
 
-run = "echo 'Please type what you want to convert into Morse code' && go run cmd/morsecli/*"
+run = "./demo.sh"
 
 modules = ["go-1.21:v2-20231201-3b22c78"]
 
