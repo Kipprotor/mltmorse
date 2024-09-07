@@ -51,3 +51,10 @@ func WithWordSeparator(wordSeparator string) ConverterOption {
 		return c
 	}
 }
+
+func WithStrNormlizer(normlizer StrNormlizer) ConverterOption {
+	return func(c Converter) Converter {
+		c.Nomalizer = normlizer
+		return c
+	}
+}

@@ -3,12 +3,16 @@ package mltmorse
 import (
 	"io"
 	"strings"
+	"unicode"
 )
 
 // ErrorHandler is a function used by Converter when it encounters an unknown character
 // Returns the text to insert at the place of the unknown character
 // This may not(but can if necessary) corrupt the output inserting invalid morse character
 type ErrorHandler func(error) string
+
+// NormlizerStr is a function used by Converter when it normalizes a string
+type NormlizerStr func(string) []rune
 
 // Converter is a Morse from/to Text converter, it handles the conversion and error handling
 type Converter struct {
@@ -19,7 +23,8 @@ type Converter struct {
 	convertToUpper    bool
 	trailingSeparator bool
 
-	Handling ErrorHandler
+	Nomalizer NormlizerStr
+	Handling  ErrorHandler
 }
 
 // NewConverter creates a new converter with the specified configuration
@@ -40,7 +45,8 @@ func NewConverter(convertingMap EncodingMap, options ...ConverterOption) Convert
 		convertToUpper:    false,
 		trailingSeparator: false,
 
-		Handling: IgnoreHandler,
+		Nomalizer: NormStr,
+		Handling:  IgnoreHandler,
 	}
 
 	for _, opt := range options {
@@ -109,14 +115,13 @@ func (c Converter) ToMorse(text string) string {
 	 言語ごとに設定などを作って、引数に応じて処理を変えるというようにして、コードの可読性をあげる
 	 ただし変換に関してオプションを用意できてない
 	*/
-	normlized := NormStr(text)
+	normlized := c.Nomalizer(text)
 
 	for _, ch := range normlized {
-		/*
-			if c.convertToUpper {
-				ch = unicode.ToUpper(ch)
-			}
-		*/
+		// 大文字に変換するフラグをなくして、normlizer の機能として組み込む仕様にするかどうか
+		if c.convertToUpper {
+			ch = unicode.ToUpper(ch)
+		}
 
 		if _, ok := c.runeToMorse[ch]; !ok {
 			hand := []rune(c.Handling(ErrNoEncoding{string(ch)}))

@@ -7,18 +7,23 @@ import (
 )
 
 func Example() {
-	text := "MORSE IS AWESOME"
+	texts := []string{"Latin", "ελληνικά", "Русский", "にほんご"}
+	maps := []mltmorse.EncodingMap{mltmorse.LatinMorse, mltmorse.GreekMorse, mltmorse.CyillicMorse, mltmorse.KataMorse}
+	for i := 0; i < len(texts); i++ {
+		conv := mltmorse.NewConverter(maps[i])
 
-	//Convert to morse
-	textInMorse := mltmorse.ToMorse(text)
-	fmt.Println(textInMorse)
+		textInMorse := conv.ToMorse(texts[i])
+		backToText := conv.ToText(textInMorse)
 
-	//Back to text
-	backToText := mltmorse.ToText(textInMorse)
-	fmt.Println(backToText)
-	//Output: -- --- .-. ... .   .. ...   .- .-- . ... --- -- .
-	//MORSE IS AWESOME
+		fmt.Printf("%v -> %v -> %v\n", texts[i], textInMorse, backToText)
+		// Output:
+		// Latin -> .-.. .- - .. -. -> LATIN
+		// ελληνικά -> . .-.. .-.. .... -. .. -.- .- -> ΕΛΛΗΝΙΚΑ
+		// Русский -> .-. ..- ... ... -.- .. .. -> РУССКИИ
+		// にほんご -> -.-. -.. .-.-. ---- .. -> ニホンコ゛
+	}
 }
+
 func ExampleRuneToMorse() {
 	ch := 'G'
 	str := mltmorse.RuneToMorse(ch)
@@ -33,16 +38,16 @@ func ExampleRuneToText() {
 	fmt.Printf("The morse code %s converts to: %c", str, ch)
 	//Output: The morse code --. converts to: G
 }
-func ExampleNormStr() {
-	latinText := "HELLO, WORLD!"
-	cyrillicText := "ЭТО МОРЗЕ"
+func ExampleStrNorm() {
+	latinText := "hello, world!"
+	cyrillicText := "это морзе"
 	japaneseText := "きょうは リンゴを 2つ たべました"
 	for _, text := range []string{latinText, cyrillicText, japaneseText} {
-		for _, r := range text {
-			fmt.Printf("%v\n", mltmorse.NormStr(string(r)))
-			// hello, world!
-			// это морзе
-			// キヨウハ リンコ゛ヲ 2ツ タヘ゛マシタ
-		}
+		r := mltmorse.NormStr(string(text))
+		fmt.Printf("%v\n", string(r))
+		// Output:
+		// HELLO, WORLD!
+		// ЭТО МОРЗЕ
+		// キヨウハ リンコ゛ヲ 2ツ タヘ゛マシタ
 	}
 }
