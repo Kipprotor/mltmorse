@@ -31,5 +31,5 @@ var DefaultConverter = NewConverter(
 	WithLowercaseHandling(true),
 	WithHandler(IgnoreHandler),
 	WithTrailingSeparator(false),
-	WithStrNormlizer(NormStr),
+	WithStrNormalizer(NormStr),
 )

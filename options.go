@@ -52,9 +52,11 @@ func WithWordSeparator(wordSeparator string) ConverterOption {
 	}
 }
 
-func WithStrNormlizer(normlizer StrNormlizer) ConverterOption {
+// WithStrNormalizer sets the string normalizer function
+// The Word Separator is used to normalize string
+func WithStrNormalizer(normalizer StrNormalizer) ConverterOption {
 	return func(c Converter) Converter {
-		c.Nomalizer = normlizer
+		c.Normalizer = normalizer
 		return c
 	}
 }
