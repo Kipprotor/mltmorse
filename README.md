@@ -3,8 +3,6 @@ mltmorse
 [![Documentation](https://godoc.org/github.com/Kipprotor/mltmorse?status.svg)](http://godoc.org/github.com/Kipprotor/mltmorse)
 [![Go Report Card](https://goreportcard.com/badge/github.com/Kipprotor/mltmorse)](https://goreportcard.com/report/github.com/Kipprotor/mltmorse)
 
-**Some features of this repository are currently under development.**
-
 mltmorse is a library for Morse encoding/decoding and signal sound generation.
 
 This repository is forked from [gSpera/morse](https://github.com/gSpera/morse).
@@ -14,10 +12,6 @@ Features
 - Encoding of strings and decording of Morse code
 - Encording of several types of characters (Latin,Greek,Cyrillic)
 - Specify Morse code conversion table
-
-**Note**: **The function to generate wav files** has been removed to simplify the package.<br>
-However, a tool to generate wav from Morse code is available in [cmd/soundmorse](cmd/soundmorse).
-The packages required to run the tool are not included in go.mod, so if you want to use this tool, run `go mod tidy` to download them.
 
 Support
 =======
