@@ -11,12 +11,12 @@ import (
 
 func main() {
 	var (
-		decode     bool
-		newlineOpt bool
-		alphabet   string
+		decode    bool
+		newlineCode string
+		alphabet  string
 	)
 	flag.BoolVar(&decode, "D", false, "Decodes input (Morse -> Text)")
-	flag.BoolVar(&newlineOpt, "nl", false, "Insert a newline code at each newline; default is false")
+	flag.StringVar(&newlineCode, "nl", "", "Specify the signal to be used as a newline code. For example -..-.. (nl)")
 	flag.StringVar(&alphabet, "s", "lt", "alphabet to use (lt:Latin, gr:Greek, cy:Cyrillic, kr:Korean, ja:Katakana)")
 
 	in := PathFlag("-")
@@ -51,10 +51,8 @@ func main() {
 		"ja": mltmorse.KataMorse,
 	}
 
-	encodingMap := mltmorse.MergeEncMap(DictMap[alphabet], mltmorse.NumMorse)
-	if newlineOpt {
-		encodingMap['\n'] = mltmorse.Wait
-	}
+	encodingMap := mltmorse.MergeEncMap(DictMap[alphabet], mltmorse.NumMorse, mltmorse.SymbolMorse)
+	encodingMap['\n'] = newlineCode
 
 	converter := mltmorse.NewConverter(encodingMap,
 		mltmorse.WithLowercaseHandling(true),
