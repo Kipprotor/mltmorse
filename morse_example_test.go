@@ -38,7 +38,15 @@ func ExampleRuneToText() {
 	fmt.Printf("The morse code %s converts to: %c", str, ch)
 	//Output: The morse code --. converts to: G
 }
-func ExampleStrNorm() {
+func ExampleMergeEncMap() {
+	map1 := mltmorse.EncodingMap{'A': ".-"}
+	map2 := mltmorse.EncodingMap{'B': "-.."}
+	map3 := mltmorse.MergeEncMap(map1, map2)
+	fmt.Printf(`%v\nThis map is equivalent to this map:\nEncodingMap{'A':".-","B":"-.."}`, map3)
+	// Output:
+	// map[65:.- 66:-..]\nThis map is equivalent to this map:\nEncodingMap{'A':".-","B":"-.."}
+}
+func ExampleNormStr() {
 	latinText := "hello, world!"
 	cyrillicText := "это морзе"
 	japaneseText := "きょうは リンゴを 2つ たべました"
