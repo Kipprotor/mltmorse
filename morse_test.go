@@ -2,10 +2,10 @@ package mltmorse_test
 
 import (
 	"bytes"
+	"reflect"
 	"testing"
 
 	"github.com/Kipprotor/mltmorse"
-	"github.com/google/go-cmp/cmp"
 )
 
 func TestRuneToMorse(t *testing.T) {
@@ -342,7 +342,7 @@ func TestNormStr(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			out := mltmorse.NormStr(tt.input)
 			expect := []rune(tt.output)
-			if !cmp.Equal(out, expect) {
+			if !reflect.DeepEqual(out, expect) {
 				t.Errorf("Expected: %q; got: %q", expect, out)
 			}
 		})

@@ -2,9 +2,8 @@ package mltmorse
 
 import (
 	"fmt"
+	"reflect"
 	"testing"
-
-	"github.com/google/go-cmp/cmp"
 )
 
 func TestConverterOption(t *testing.T) {
@@ -46,10 +45,10 @@ func compareConverter(a, b Converter) error {
 		(b.Handling == nil && a.Handling != nil) {
 		return fmt.Errorf("Handlers are different")
 	}
-	if !cmp.Equal(a.morseToRune, b.morseToRune) {
+	if !reflect.DeepEqual(a.morseToRune, b.morseToRune) {
 		return fmt.Errorf("MorseToRune are different")
 	}
-	if !cmp.Equal(a.runeToMorse, b.runeToMorse) {
+	if !reflect.DeepEqual(a.runeToMorse, b.runeToMorse) {
 		return fmt.Errorf("RuneToMorse are different")
 	}
 
