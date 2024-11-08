@@ -24,7 +24,7 @@ type Converter struct {
 	trailingSeparator bool
 
 	Normalizer StrNormalizer
-	Handling  ErrorHandler
+	Handling   ErrorHandler
 }
 
 // NewConverter creates a new converter with the specified configuration
@@ -46,7 +46,7 @@ func NewConverter(convertingMap EncodingMap, options ...ConverterOption) Convert
 		trailingSeparator: false,
 
 		Normalizer: NormStr,
-		Handling:  IgnoreHandler,
+		Handling:   IgnoreHandler,
 	}
 
 	for _, opt := range options {
